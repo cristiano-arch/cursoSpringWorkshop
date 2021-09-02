@@ -1,26 +1,26 @@
 package com.andcris.cursoSpringWorkshop.resources;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.andcris.cursoSpringWorkshop.domain.User;
+import com.andcris.cursoSpringWorkshop.services.UserService;
 
 @RestController
 @RequestMapping(value="/users")
 public class UserResource {
+	
+	@Autowired
+	private UserService service;
 
 	@RequestMapping(method=RequestMethod.GET)
 	public ResponseEntity<List<User>> findAll() {
-		List<User> list = new ArrayList<>();
-		User u1 = new User("1", "Dyer", "dyer@dyer.com");
-		User u2 = new User("2", "Danforth", "dan@forth.com");
-		list.addAll(Arrays.asList(u1, u2));
+		List<User> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 }
