@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.andcris.cursoSpringWorkshop.domain.Post;
 import com.andcris.cursoSpringWorkshop.domain.User;
+import com.andcris.cursoSpringWorkshop.dto.AuthorDTO;
 import com.andcris.cursoSpringWorkshop.repositories.PostRepository;
 import com.andcris.cursoSpringWorkshop.repositories.UserRepository;
 
@@ -24,6 +25,9 @@ public class Instantiation implements CommandLineRunner{
 	
 	@Override
 	public void run(String... args) throws Exception {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
 		userRepository.deleteAll();
 		postRepository.deleteAll();
 		
@@ -33,12 +37,9 @@ public class Instantiation implements CommandLineRunner{
 		
 		userRepository.saveAll(Arrays.asList(u1, u2, u3));
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
-		
-		Post p1 = new Post(null, sdf.parse("09/08/1930"), "Partiu viagem", "Vou viajar para Antártida. Abraços!", u2);
-		Post p2 = new Post(null, sdf.parse("09/08/1922"), "Bom dia", "Acordei mais um hoje!", u3);
-		Post p3 = new Post(null, sdf.parse("09/08/1922"), "Olá", "Estou em Arkham!", u3);
+		Post p1 = new Post(null, sdf.parse("09/08/1930"), "Partiu viagem", "Vou viajar para Antártida. Abraços!", new AuthorDTO(u2));
+		Post p2 = new Post(null, sdf.parse("09/08/1922"), "Bom dia", "Acordei mais um hoje!", new AuthorDTO(u3));
+		Post p3 = new Post(null, sdf.parse("09/08/1922"), "Olá", "Estou em Arkham!", new AuthorDTO(u3));
 		
 		postRepository.saveAll(Arrays.asList(p1, p2, p3));
 	}
